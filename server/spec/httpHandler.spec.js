@@ -6,14 +6,13 @@ const server = require('./mockServer');
 
 const httpHandler = require('../js/httpHandler');
 
-
-
 describe('server responses', () => {
 
   it('should respond to a OPTIONS request', (done) => {
     let {req, res} = server.mock('/', 'OPTIONS');
 
     httpHandler.router(req, res);
+
     expect(res._responseCode).to.equal(200);
     expect(res._ended).to.equal(true);
     expect(res._data.toString()).to.be.empty;
@@ -21,8 +20,18 @@ describe('server responses', () => {
     done();
   });
 
+
+
   it('should respond to a GET request for a swim command', (done) => {
     // write your test here
+    let {req, res} = server.mock('/', 'GET');
+    httpHandler.router(req, res);
+    // expect response code of 200
+    expect(res._responseCode).to.equal(200);
+    // expect an end
+    expect(res._ended).to.equal(true);
+    // expect response data to equal something
+    expect(res._data.toString()).to.be.a('string');
     done();
   });
 
