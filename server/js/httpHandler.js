@@ -13,40 +13,13 @@ module.exports.initialize = (queue) => {
 };
 
 module.exports.router = (req, res, next = ()=>{}) => {
+  var directions = ['up', 'down', 'left', 'right'];
 
   // GET to '/' => random swim command
   if(req.method === 'GET') {
-    // array of directions
-    var directions = ['up', 'down', 'left', 'right'];
-    // random pick
-    var rdm = Math.floor(Math.random() * 4);
-    var pick = directions[rdm];
-    // handle GET request
-      // respond with random direction
-      // write a response code of 200
-      res.writeHead(200, headers);
-      // end response w/ msg
-      res.end(pick);
-  }
-
-  if(req.method === 'POST') {
-    // handle POST request
-    switch(req.url) {
-      case '/COMMANDS':
-        // post data
-          // add message
-          var msg = req._postData;
-          messageQueue.enqueue(msg);
-          // send response code
-          res.writeHead(201);
-          // end response
-          res.end();
-        break;
-      case '/IMG':
-        // post img
-        break;
-      default:
-    }
+    var command = messageQueue.dequeue();
+    res.writeHead(200, headers);
+    res.end(command);
   }
 
   if (req.method === 'OPTIONS') {
@@ -54,12 +27,6 @@ module.exports.router = (req, res, next = ()=>{}) => {
     res.end();
   }
 
-  // respond approiately to bad request
-
-  // respond to GET /COMMANDS
-  // respond to POST /COMMANDS
-  // respond to POST /IMG
-  // respond to undefined routes w/ 404
   console.log('Serving request type ' + req.method + ' for url ' + req.url);
   next(); // invoke next() at the end of a request to help with testing!
 };
