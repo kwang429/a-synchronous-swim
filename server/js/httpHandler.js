@@ -22,6 +22,13 @@ module.exports.router = (req, res, next = ()=>{}) => {
     res.end(command);
   }
 
+  if(req.method === 'GET' && req.url === '/images') {
+    
+    if() {
+
+    }
+  }
+
   if (req.method === 'OPTIONS') {
     res.writeHead(200, headers);
     res.end();
