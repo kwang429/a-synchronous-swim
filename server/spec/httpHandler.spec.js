@@ -5,6 +5,18 @@ const expect = require('chai').expect;
 const server = require('./mockServer');
 
 const httpHandler = require('../js/httpHandler');
+const messageQueue = require('../js/messageQueue');
+
+beforeEach(() => {
+  httpHandler.initialize(messageQueue);
+  messageQueue.enqueue('up');
+});
+
+afterEach(() => {
+  if(messageQueue) {
+    messageQueue.dequeue();
+  }
+});
 
 describe('server responses', () => {
 
